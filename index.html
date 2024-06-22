@@ -33,7 +33,7 @@
         line-height: 0.9;
       }
       .n {
-        > span:nth-child(2) {
+        span > span:nth-child(2) {
           position: absolute;
           bottom: 0;
           left: 0;
@@ -53,14 +53,32 @@
           left: 0;
         }
       }
+
+      #circles {
+        position: absolute;
+        transform: scale(0);
+      }
+      #windmill {
+        position: absolute;
+        transform: translateX(-80vw) translateY(-100%);
+      }
+      #star {
+        position: absolute;
+        top: 25%;
+        transform: translateX(-150%) scale(0);
+      }
     </style>
   </head>
   <body>
     <div class="container">
       <span class="a">A</span>
-      <span class="n box">
-        <span>n</span>
-        <span>a</span>
+      <span class="n">
+        <img id="windmill" src="./public/windmill.svg" alt="Windmill" />
+        <img id="circles" src="./public/circles.svg" alt="Circles" />
+        <span class="box">
+          <span>n</span>
+          <span>a</span>
+        </span>
       </span>
       <span class="i box">
         <span>i</span>
@@ -68,8 +86,11 @@
       <span class="m box">
         <span>m</span>
       </span>
-      <span class="a2 box">
-        <span>a</span>
+      <span class="a2">
+        <img id="star" src="./public/star.svg" alt="star" />
+        <span class="box">
+          <span>a</span>
+        </span>
       </span>
       <span class="t">
         <span class="box">
@@ -90,12 +111,85 @@
     <script>
       var tl = gsap.timeline();
       tl.from(".a", { rotateX: -360, duration: 1 });
-      tl.from(".n span:nth-child(2)", { y: 100, duration: 0.5 });
-      tl.to(".n span:nth-child(2)", { rotateY: 90, duration: 0.2, delay: 0.5 });
-      tl.from(".n span:first-child", { rotateY: -90, duration: 0.2 });
+      tl.to("#circles", {
+        scale: 1,
+        duration: 1,
+        ease: "elastic.out(1,0.5)",
+      });
+      tl.from(".n span span:nth-child(2)", { y: 100, duration: 0.5 });
+      tl.to(
+        "#circles",
+        {
+          duration: 1,
+          y: -180,
+          opacity: 0,
+        },
+        "2"
+      );
+      tl.to(
+        "#windmill",
+        {
+          duration: 1,
+          rotation: 360,
+          x: 0,
+        },
+        "2"
+      );
+      tl.to("#windmill", {
+        rotation: "+=90_cw",
+        delay: 1,
+        duration: 0.2,
+        repeatDelay: 1,
+        repeat: -1,
+      });
+
+      tl.to(".n span span:nth-child(2)", {
+        rotateY: 90,
+        duration: 0.2,
+        delay: 0.5,
+      });
+      tl.from(".n span span:first-child", { rotateY: -90, duration: 0.2 });
       tl.from(".i span:first-child", { y: -180, duration: 0.5 }, "1");
+      tl.to("#star", {
+        duration: 3,
+        rotation: 360,
+        repeat: -1,
+        ease: "linear",
+      });
+      tl.to(
+        "#star",
+        {
+          duration: 1,
+          ease: "elastic.out(1,0.5)",
+          scale: 1,
+        },
+        "1.5"
+      );
       tl.from(".m span:first-child", { x: -180, duration: 0.5 });
-      tl.from(".a2 span:first-child", { y: 90, duration: 0.5 });
+      tl.to(
+        "#star",
+        {
+          duration: 0.5,
+          x: 0,
+        },
+        "<"
+      );
+      tl.from(".a2 span span:first-child", { y: 90, duration: 0.5 });
+      tl.to(
+        ".a2",
+        {
+          overflow: "hidden",
+        },
+        "<"
+      );
+      tl.to(
+        "#star",
+        {
+          duration: 1,
+          y: 100,
+        },
+        "<"
+      );
       tl.from(
         ".t > span:nth-child(2) span",
         {
