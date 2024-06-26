@@ -16,6 +16,7 @@
       }
       body {
         color: #fffce1;
+        margin: 0;
         font-size: 8rem;
         font-family: "Roboto", sans-serif;
         font-weight: 700;
@@ -109,11 +110,18 @@
 
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
     <script>
-      var tl = gsap.timeline();
+      // Creamos un timeline
+      const tl = gsap.timeline();
+      // FROM aplica estilos de como debe iniciar la animación
+      // ej. Letra A empieza desde una rotación X de -360 a su posición final
       tl.from(".a", { rotateX: -360, duration: 1 });
+      // TO aplica estilos de como debe terminar la animación
+      // ej. Los estilos en cirlces aplican scale 0 y aquí aplicamos una animación
+      // que aplica el estilo scale 1
       tl.to("#circles", {
         scale: 1,
         duration: 1,
+        // Velocidad de animación 
         ease: "elastic.out(1,0.5)",
       });
       tl.from(".n span span:nth-child(2)", { y: 100, duration: 0.5 });
@@ -136,11 +144,14 @@
         "2"
       );
       tl.to("#windmill", {
+        // Rotación en dirección a manecillas del reloj
         rotation: "+=90_cw",
         delay: 1,
         duration: 0.2,
-        repeatDelay: 1,
+        // Repetición infinita
         repeat: -1,
+        // Tiempo de espera entre repetición
+        repeatDelay: 1,
       });
 
       tl.to(".n span span:nth-child(2)", {
